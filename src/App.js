@@ -1,25 +1,39 @@
-import logo from './logo.svg';
+/* eslint-disable jsx-a11y/anchor-is-valid */
+import { Component } from 'react';
 import './App.css';
+import Menu from './components/Menu/Menu';
+import { Switch, Route, BrowserRouter as Router } from 'react-router-dom';
+import routes from './routes';
+class App extends Component {
+    render() {
+        return (
+            <Router>
+                <div>
+                    <Menu></Menu>
+                    <div className="container">
+                        {this.showContentMenu(routes)}
+                    </div>
+                </div>
+            </Router>
+        );
+    }
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    showContentMenu = (routes)=>{
+        var result = null;
+        if(routes.length > 0){
+            result = routes.map((route, index) => {
+                return(
+                    <Route 
+                        key={index}
+                        path={route.path}
+                        exact={route.exact}
+                        component={route.main}
+                    />
+                ) 
+            })
+        }
+        return <Switch>{result}</Switch>
+    }
 }
 
 export default App;
